@@ -17,14 +17,14 @@ More specifically:
 Framed as a binary classification problem: whether a bacterial species contains both NirK and PCuAC proteins.
 
 ### Stage 2: Data Collection 
-_Scripts: 2.1a-d, 2.2_
+_Scripts: 2.1a-d, 2.2_  
 - Define seed proteins for NirK and PCuAC
 - Prepare protein database
 - Run large-scale BLASTp searches against RefSeq to retrieve homologous sequences
 - Collect raw candidate homologous sequences
 
 ### Stage 3: Data Cleaning and Label Construction
-> Currently here :)
+> Currently here!  
 _Scripts: 3.1-3.6_
 - Standardise BLAST metadata and accession identifiers
 - Retrieve protein sequence metadata and FASTA sequences
@@ -34,7 +34,7 @@ _Scripts: 3.1-3.6_
 - Generate representative protein datasets for downstream feature analysis
 
 ### Stage 4: Feature Engineering
-_Scripts: 4.1, 4.2_
+_Scripts: 4.1, 4.2_  
 - Integrate validated protein-sequences with sequence-derived features
 - Physicochemical protein descriptors of interest:
   - Protein length
@@ -46,7 +46,7 @@ _Scripts: 4.1, 4.2_
 - Generate final analysis table and machine-learning feature matrices
 
 ### Stage 5: Exploratory Data Analysis
-_Scripts: _
+_Scripts: _  
 - Assess dataset composition and class balance
 - Compare NirK-only, PCuAC-only, and co-occurring groups
 - Identify feature redundancy through correlation analysis
