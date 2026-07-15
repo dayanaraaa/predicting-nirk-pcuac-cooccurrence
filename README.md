@@ -104,8 +104,10 @@ _Currently considering..._
 - SLURM job scheduling
 
 ---
-**Data availability**
-Raw data pulled from public databases (RefSeq, BLASTp results) isn't included in this repo due to size. Scripts in scripts/2_data_collection/ will regenerate it, though results may shift slightly as source databases get updated. Processed and intermediate data will be added as later stages are finalised.
+**Data availability**   
+
+Raw data pulled from public databases (RefSeq, BLASTp results) isn't included in this repo due to size. Scripts in scripts/2_data_collection/ will regenerate it, though results may shift slightly as source databases get updated. Processed and intermediate data will be added as later stages are finalised. 
+ 
 ---
 **Known Limitations & Future Work**
 
