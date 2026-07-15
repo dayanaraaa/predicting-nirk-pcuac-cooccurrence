@@ -6,7 +6,7 @@ Currently on Stage 3
 This repo includes the bioinformatics and machine learning pipeline I'm building for my Master of Data Science dissertation. The project investigates whether sequence-derived protein features can be used to predict the co-occurrence of NirK, a copper-containing nitrite reductase, and PCuAC, a periplasmic copper chaperone. These proteins are both involved in copper-dependent denitrification for anaerobic bacterial respiration.
 
 ## Research Question
-**Can sequence-derived features from NirK and PCuAC proteinsb predict whether a bacterial species contains both proteins?**
+**Can sequence-derived features from NirK and PCuAC proteinsb predict whether a bacterial species contains both proteins?**  
 More specifically:
 - Can NirK features predict whether PCuAC is present?
 - Can PCuAC features predict whether NirK is present?
