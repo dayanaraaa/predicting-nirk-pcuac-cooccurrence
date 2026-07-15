@@ -82,7 +82,7 @@ _Currently considering..._
 
 ### Stage 10: Model Interpretation
 - Feature importance analysis
-- Identify sequence features associated with NirK–PCuAC co-occurrence
+- Identify sequence features associated with NirK-PCuAC co-occurrence
 ---
 
 ## Tools and Technologies 
