@@ -5,8 +5,6 @@ This stage is about finding candidate NirK and PCuAC homologues by running large
 
 I start with curated seed sequences for NirK and PCuAC, then use those as queries to search across bacterial protein sequences for potential matches. The raw BLASTp hits that come out of this stage get passed along to Stage 3, where they're cleaned up and validated properly.
 
----
-
 ## Objectives
 
 - Define seed protein sequences for NirK and PCuAC
@@ -14,11 +12,14 @@ I start with curated seed sequences for NirK and PCuAC, then use those as querie
 - Run the BLASTp searches at scale
 - Produce raw candidate hit tables for cleaning and validation in the next stage
   
----
-## Workflow
-Seed protein sequences >RefSeq Protein database preparation > BLASTp searches > Raw BLASTp hit tables > Stage 3: Cleaning and Label Construction
 
----
+## Workflow
+1. Seed protein sequences
+2. RefSeq Protein database preparation
+3. BLASTp searches
+4. Raw BLASTp hit tables
+5. Stage 3: Cleaning and Label Construction
+
 ## Scripts
 
 | Script | Purpose |
@@ -29,14 +30,13 @@ Seed protein sequences >RefSeq Protein database preparation > BLASTp searches > 
 | `2.1d_*` | Process and extract the raw BLASTp hits |
 | `2.2_*` | Supporting data prep and database handling |
 
----
+
 ## Inputs
 - NirK seed protein sequence
 - PCuAC seed protein sequence
 - NCBI RefSeq Protein database
 - BLAST+ tools
 
----
 ## Outputs
 Raw BLASTp results with candidate homologous hits, including:
 - Protein accession identifiers
@@ -46,14 +46,9 @@ Raw BLASTp results with candidate homologous hits, including:
 
 These get passed to Stage 3 for cleaning, metadata retrieval, sequence validation, and species-level label construction.
 
----
+
 ## Computational Environment
 This stage runs on a university HPC cluster using SLURM job submission, the BLASTp searches are too computationally heavy to run locally at this scale.
-
-Example submission:
-```bash
-sbatch 2.1c_blastp_search.sh
-```
 
 ---
 ## Notes 
