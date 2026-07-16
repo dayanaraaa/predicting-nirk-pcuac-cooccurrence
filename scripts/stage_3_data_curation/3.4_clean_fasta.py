@@ -17,8 +17,8 @@ Outputs:
 
 Parameters:
 Literature-supported sequence length ranges:
-- NirK: 300–996 aa
-- PCuAC: 100–350 aa
+    NirK: 300–996 aa
+    PCuAC: 100–350 aa
 
 Additional quality-control thresholds:
 --max-gap = maximum allowed gap fraction
@@ -33,9 +33,7 @@ AMBIG_AA = set("BJOUZ")
 
 
 def read_fasta(path):
-    """
-    Yield (accession, sequence) from a FASTA file.
-    """
+    """Yield (accession, sequence) from a FASTA file."""
     if not os.path.exists(path):
         sys.exit(f"File not found: {path}")
     header, seq = None, []
@@ -65,9 +63,7 @@ def clean_fasta(
     max_ambig,
     label,
 ):
-    """
-    Apply length, gap, ambiguity, and duplicate filters.
-    """
+    """Apply length, gap, ambiguity, and duplicate filters."""
     seen_ids = set()
     seen_seqs = set()
 

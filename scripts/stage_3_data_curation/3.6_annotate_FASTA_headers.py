@@ -28,6 +28,8 @@ import sys
 BLAST_COLS = [
     "accession",
     "qseqid",
+    "pident",
+    "length",
     "bitscore",
     "evalue",
     "staxids",
@@ -35,13 +37,11 @@ BLAST_COLS = [
     "stitle",
 ]
 
-
 CLASS_LABEL = {
     "both": "NirK+ PCuAC+",
     "nirK_only": "NirK+ PCuAC-",
     "pcuac_only": "NirK- PCuAC+",
 }
-
 
 def read_fasta(path):
     if not os.path.exists(path):
@@ -63,7 +63,6 @@ def read_fasta(path):
 def strip_version(acc):
     return acc.split(".")[0]
 
-
 def load_species_table(path):
     if not os.path.exists(path):
         sys.exit(f"Missing species table: {path}")
@@ -81,14 +80,12 @@ def load_species_table(path):
                     acc_to_class[base] = cls
     return acc_to_org, acc_to_class
 
-
 def load_sequence_label_map(path):
     """
     Load Stage 3.5's accession-level label map.
     """
     if not os.path.exists(path):
-        print(f"WARNING: {path} not found. Falling back to representative-only "
-              f"non-representative sequences will get guessed labels.")
+        print(f"WARNING: {path} not found. Falling back to representative-only")
         return {}
     out = {}
     with open(path) as fh:
@@ -124,7 +121,6 @@ def load_blast(path):
                 out[acc] = org
     return out
 
-
 def annotate(in_fasta, out_fasta, source, label_map, acc_to_org, acc_to_class, fallback, report):
     written = 0
     guessed = 0
@@ -132,11 +128,7 @@ def annotate(in_fasta, out_fasta, source, label_map, acc_to_org, acc_to_class, f
         for acc, seq in read_fasta(in_fasta):
             base = strip_version(acc)
             mapped = label_map.get(base)
-
             if mapped is not None:
-                # true species-derived label
-                # for this exact accession, whether or not it's the
-                # species' chosen representative.
                 organism = mapped["species"]
                 raw_cls = mapped["class"]
                 is_rep = mapped["is_representative"]
@@ -170,14 +162,15 @@ def annotate(in_fasta, out_fasta, source, label_map, acc_to_org, acc_to_class, f
               f"guessed label (not found in sequence_label_map.csv)")
     return written
 
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--nir-fasta", default="out/nir_clean.fasta")
     ap.add_argument("--pcu-fasta", default="out/pcu_clean.fasta")
 
     ap.add_argument("--species-table", default="out/species_master_table.csv")
-    ap.add_argument("--sequence-label-map", default="out/sequence_label_map.csv")
+    ap.add_argument("--sequence-label-map", default="out/sequence_label_map.csv",
+                     help="Stage 3.5 output (fix for Issue 1); primary source of "
+                          "per-accession species/class labels.")
 
     ap.add_argument("--nir-blast", default="out/nir_blast_metadata_clean.tsv")
     ap.add_argument("--pcu-blast", default="out/pcu_blast_metadata_clean.tsv")
@@ -203,7 +196,7 @@ def main():
     for source, in_fa, out_fa in targets:
         if os.path.exists(in_fa):
             n = annotate(in_fa, out_fa, source, label_map, acc_to_org, acc_to_class, fallback, report)
-            print(f"{source.upper()}: {n} sequences annotated: {out_fa}")
+            print(f"{source.upper()}: {n} sequences annotated -> {out_fa}")
 
     report_path = os.path.join(args.outdir, "3.6_annotation_report.tsv")
     with open(report_path, "w", newline="") as fh:

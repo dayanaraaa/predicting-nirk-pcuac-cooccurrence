@@ -19,17 +19,17 @@ Outputs:
 
 Parameters:
 NirK:
-- min length 300 aa
-- Type‑1 ligands: His134, Cys175, His183, Met188
-- Type‑2 ligands: His139, His174, His329
-- catalytic dyad: Asp137, His280
-- bona fide = Type‑1 AND Type‑2
+    - min length 300 aa
+    - Type‑1 ligands: His134, Cys175, His183, Met188
+    - Type‑2 ligands: His139, His174, His329
+    - catalytic dyad: Asp137, His280
+    - bona fide = Type‑1 AND Type‑2
 
 PCuAC:
-- min length 100 aa
-- Cu(I) motif: His69, Met80, His103, Met105
-- Cu(II) proxy: His count ≥ 3 in C‑terminal(last 30 aa)
-- bona fide = Cu(I) motif present
+    - min length 100 aa
+    - Cu(I) motif: His69, Met80, His103, Met105
+    - Cu(II) proxy: His count ≥ 3 in C‑terminal(last 30 aa)
+    - bona fide = Cu(I) motif present
 """
 
 import argparse
@@ -81,9 +81,7 @@ def read_fasta(path):
 
 
 def aa_at(seq, pos1):
-    """
-    Residue positions are defined relative to MAFFT seed-aligned reference sequence 
-    """
+    # Residue positions are defined relative to MAFFT seed-aligned reference sequence
     idx = pos1 - 1
     return seq[idx] if 0 <= idx < len(seq) else "-"
 

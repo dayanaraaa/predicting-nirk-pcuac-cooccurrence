@@ -89,7 +89,7 @@ mafft \
 > "$aln"
 
 echo "Tagging copper-site residues..."
-python3 scripts/3.3_tag_sites.py \
+python3 src/3.3_tag_sites.py \
     --name "$name" \
     --aln "$aln" \
     --outdir out

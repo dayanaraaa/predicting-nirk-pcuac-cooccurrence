@@ -13,8 +13,7 @@
 #SBATCH --mail-type=ALL # Enable SLURM email notifications
 #SBATCH --mail-user=your_email@example.com
 
-# Objective:
-# Fetch FASTA sequences for NirK and PCuAC BLAST hits
+# Stage 3.2 — Fetch FASTA sequences for NirK and PCuAC BLAST hits
 # Requires local RefSeq protein BLAST database generated in Stage 2
 
 module load bioinformatics
