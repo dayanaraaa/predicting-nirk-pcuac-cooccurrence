@@ -6,12 +6,14 @@ This stage is about finding candidate NirK and PCuAC homologues by running large
 I start with curated seed sequences for NirK and PCuAC, then use those as queries to search across bacterial protein sequences for potential matches. The raw BLASTp hits that come out of this stage get passed along to Stage 3, where they're cleaned up and validated properly.
 
 ---
+
 ## Objectives
+
 - Define seed protein sequences for NirK and PCuAC
 - Set up the RefSeq Protein database for local BLASTp searches
 - Run the BLASTp searches at scale
 - Produce raw candidate hit tables for cleaning and validation in the next stage
-
+  
 ---
 ## Workflow
 Seed protein sequences >RefSeq Protein database preparation > BLASTp searches > Raw BLASTp hit tables > Stage 3: Cleaning and Label Construction
