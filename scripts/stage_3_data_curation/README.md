@@ -3,7 +3,7 @@
 ## Overview
 Stage 3 transforms the raw BLASTp hit tables from Stage 2 into a clean, biologically meaningful dataset of NirK and PCuAC homologues at the species level.
 
-It includes:
+It includes:  
 - Cleaning BLASTp results
 - Validating accessions
 - Retrieving FASTA sequences
@@ -19,13 +19,13 @@ It includes:
 - Taxonomy information (species, strain, genus, phylum) * step has not been added into workflow yet
 
 ## Outputs
+
 - species_master_table
 - representative NirK accession
 - representative PCuAC accession
 - NirK_present (0/1)
 - PCuAC_present (0/1)
 - class (nirK_only/pcuac_only/both/neither)
-
 - nirK_clean.fasta
 - pcuAC_clean.fasta
 - Residue QC tables
@@ -55,7 +55,7 @@ Ensure each accession resolves to a valid RefSeq protein.
 3. Sequence retrieval
 Download FASTA sequences for all candidate NirK and PCuAC hits.
 4. Residue-level QC- NirK: T1/T2 copper sites, catalytic histidines
-- PCuAC: Cys‑His motif, histidine tail count
+    - PCuAC: Cys‑His motif, histidine tail count
 
 5. Species collapsing
 Merge strain‑level entries into species‑level representatives.
@@ -70,45 +70,15 @@ Feature extraction and integration.
 
 ## Scripts
 
-Script	Purpose	
-3.1_*	Clean raw BLASTp hit tables (remove duplicates, filter low‑quality hits)	
-3.2_*	Validate accessions and retrieve RefSeq metadata	
-3.3_*	Download FASTA sequences for NirK and PCuAC candidates	
-3.4_*	Perform residue‑level QC (catalytic sites, motifs, histidine counts)	
-3.5_*	Collapse strain‑level entries into species representatives	
-3.6_*	Construct species‑level presence/absence labels and write master table	
-3.7_*	Produce cleaned FASTA files for Stage 4	
-
-
----
-
-## Inputs
-
-- Raw BLASTp hit tables from Stage 2
-- RefSeq protein accession metadata
-- FASTA sequences retrieved from NCBI
-- Residue QC rules for NirK and PCuAC
-- Taxonomy information (species, strain, genus, phylum)
-
-
----
-
-## Outputs
-
-Stage 3 produces the cleaned, validated, species‑level dataset:
-
-- species_master_table.csv- species name
-- representative NirK accession
-- representative PCuAC accession
-- NirK_present (0/1)
-- PCuAC_present (0/1)
-- class (nirK_only/pcuac_only/both/neither)
-
-- nirK_clean.fasta
-- pcuAC_clean.fasta
-- Residue QC tables- catalytic site completeness
-- motif presence
-- histidine tail counts
+| Script | Purpose |
+|---|---|
+| `3.1_*` |	Clean raw BLASTp hit tables (remove duplicates, filter low‑quality hits)	
+| `3.2_*` |Validate accessions and retrieve RefSeq metadata	
+| `3.3_*` |	Download FASTA sequences for NirK and PCuAC candidates	
+| `3.4_*` |	Perform residue‑level QC (catalytic sites, motifs, histidine counts)	
+| `3.5_*` |	Collapse strain‑level entries into species representatives	
+| `3.6_*` |	Construct species‑level presence/absence labels and write master table	
+| `3.7_*` |	Produce cleaned FASTA files for Stage 4	
 
 ---
 
@@ -128,7 +98,7 @@ A few important considerations for Stage 3:
 RefSeq contains many strain‑level entries; collapsing them ensures each species contributes only one representative sequence.
 - Residue QC prevents false positives.
 BLASTp alone cannot guarantee functional NirK or PCuAC homologues.
-Checking catalytic/motif residues removes spurious hits.
+Checking catalytic/motif residues removes false hits.
 - Presence/absence labels define the ML problem.
 The accuracy of Stage 3 directly determines the quality of Stage 4 and Stage 5 outputs.
 - NirK is much rarer than PCuAC.
