@@ -1,6 +1,5 @@
 # Predicting NirK-PCuAC Co-occurrence from Protein Sequence Features
 **In progress:**
-Currently on Stage 3
 
 ## Overview 
 This repo includes the bioinformatics and machine learning pipeline I'm building for my Master of Data Science dissertation. The project investigates whether sequence-derived protein features can be used to predict the co-occurrence of NirK, a copper-containing nitrite reductase, and PCuAC, a periplasmic copper chaperone. These proteins are both involved in copper-dependent denitrification for anaerobic bacterial respiration.
@@ -24,7 +23,6 @@ _Scripts: 2.1a-d, 2.2_
 - Collect raw candidate homologous sequences
 
 ### Stage 3: Data Cleaning and Label Construction
-> Currently here!  
 _Scripts: 3.1-3.6_
 - Standardise BLAST metadata and accession identifiers
 - Retrieve protein sequence metadata and FASTA sequences
