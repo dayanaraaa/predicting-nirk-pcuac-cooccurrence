@@ -6,13 +6,13 @@
 # split into the downstream modelling questions:
 
 # Model A: among species containing NirK, can PCuAC co-occurrence presence be predicted? 
-# Model A: among species containing PCuAC, can NirK co-occurrence presence be predicted? 
+# Model B: among species containing PCuAC, can NirK co-occurrence presence be predicted? 
 
 # Unit of analysis:
 # One row = one species-level observation
 # Species-level observations were produced by the upstream species-level 
 # presence/absence scripts (4.0-4.2). Sequence-derived features were calculated 
-# once per species form a single representative accession per protein 
+# once per species from a single representative accession per protein.
 # (Bio.SeqUtils.ProtParam.ProteinAnalysis).
 
 
@@ -20,12 +20,9 @@
 
 # DOES
 # - inspect structure, size and class composition of the dataset
-# - asses missingness, duplication, and general data quality
-# - visualize NirK and PCuAC feature distributions (all 25 features each:
-#   length, molecular weight, isoelectric point, GRAVY, aromaticity, and
-#   the 20 raw amino-acid composition fractions)
-# - compare feature values across classes
-# - examine correlation / redundancy among features
+# - assess missingness, duplication, and general data quality
+# - visualize distributions of the five core NirK and PCuAC features
+# - summarize Model A and Model B population sizes
 
 # DOES NOT
 # - train Logistic Regression or Random Forest models
@@ -295,155 +292,10 @@ plot_core_distribution <- function(long_df, protein_label, filename) {
 plot_core_distribution(nirk_core_long, "NirK", "nirk_core_feature_distributions.png")
 plot_core_distribution(pcuac_core_long, "PCuAC", "pcuac_core_feature_distributions.png")
 
-# Amino-acid composition
-aa_long <- function(features, prefix, protein_label) {
-  df %>%
-    select(species, class, all_of(features)) %>%
-    filter(if_all(all_of(features), ~ !is.na(.x))) %>%
-    pivot_longer(all_of(features), names_to = "feature", values_to = "value") %>%
-    mutate(
-      amino_acid = sub(paste0("^", prefix, "_aa_frac_"), "", feature),
-      protein = protein_label
-    )
-}
-
-nirk_aa_long <- aa_long(nirk_aa_features, "nirK", "NirK")
-pcuac_aa_long <- aa_long(pcuac_aa_features, "pcuac", "PCuAC")
-
-plot_aa_composition <- function(long_df, protein_label, filename) {
-  ggplot(long_df, aes(x = class, y = value, fill = class)) +
-    geom_boxplot(outlier.size = 0.5) +
-    facet_wrap(~amino_acid, scales = "free_y", ncol = 5) +
-    labs(title = paste(protein_label, "amino-acid composition, by class"),
-         x = "", y = "Fraction") +
-    theme_minimal() +
-    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
-          legend.position = "bottom", legend.title = element_blank())
-  ggsave(file.path(plots_dir, filename), width = 12, height = 9)
-}
-
-plot_aa_composition(nirk_aa_long, "NirK", "nirk_aa_composition_by_class.png")
-plot_aa_composition(pcuac_aa_long, "PCuAC", "pcuac_aa_composition_by_class.png")
-
-low_variance_features <- function(features, protein_label) {
-  df %>%
-    select(all_of(features)) %>%
-    summarise(across(everything(), ~ sd(.x, na.rm = TRUE))) %>%
-    pivot_longer(everything(), names_to = "feature", values_to = "sd") %>%
-    mutate(protein = protein_label) %>%
-    arrange(sd)
-}
-
-variance_summary <- bind_rows(
-  low_variance_features(nirk_features,  "NirK"),
-  low_variance_features(pcuac_features, "PCuAC")
-)
-write_csv(variance_summary, file.path(tables_dir, "feature_variance_summary.csv"))
-# Low variance features are sorted at the top for review before modelling.
 
 
 
-
-# Group-wise comparisons --------------------------------------------------
-group_box_plot <- function(population, features, prefix, group_levels, title, filename) {
-  long_df <- population %>%
-    mutate(group = factor(class, levels = group_levels)) %>%
-    select(group, all_of(features)) %>%
-    filter(if_all(all_of(features), ~ !is.na(.x))) %>%
-    pivot_longer(-group, names_to = "feature", values_to = "value") %>%
-    mutate(
-      feature_label = if_else(
-        feature %in% c(nirk_core_features, pcuac_core_features),
-        feature_labels[sub(paste0("^", prefix, "_"), "", feature)],
-        paste0("%", toupper(sub(paste0("^", prefix, "_aa_frac_"), "", feature)))
-      )
-    )
-  
-  ggplot(long_df, aes(x = group, y = value, fill = group)) +
-    geom_boxplot() +
-    facet_wrap(~feature_label, scales = "free_y", ncol = 4) +
-    labs(title = title, x = "", y = "") +
-    theme_minimal() +
-    theme(legend.position = "none")
-  ggsave(file.path(plots_dir, filename), width = 10, height = 7)
-}
-
-group_box_plot(
-  population = model_a_population,
-  features = nirk_group_features,
-  prefix = "nirK",
-  group_levels = c("nirK_only", "both"),
-  title = "NirK features: nirK_only vs both",
-  filename = "modelA_group_comparison_boxplot.png"
-)
-
-group_box_plot(
-  population = model_b_population,
-  features = pcuac_group_features,
-  prefix = "pcuac",
-  group_levels = c("pcuac_only", "both"),
-  title = "PCuAC features: pcuac_only vs both",
-  filename = "modelB_group_comparison_boxplot.png"
-)
-
-
-
-
-# Correlation and feature redundancy --------------------------------------
-correlation_matrix_and_pairs <- function(features, protein_label, prefix,
-                                         heatmap_file, pairs_threshold = 0.8) {
-  cor_data <- df %>% select(all_of(features)) %>%
-    filter(if_all(everything(), ~ !is.na(.x)))
-  
-  cor_mat <- cor(cor_data, use = "pairwise.complete.obs")
-  
-  cor_long <- as.data.frame(cor_mat) %>%
-    rownames_to_column("feature1") %>%
-    pivot_longer(-feature1, names_to = "feature2", values_to = "correlation")
-  
-  p <- ggplot(cor_long, aes(x =feature1, y = feature2, fill= correlation)) +
-    geom_tile() +
-    scale_fill_gradient2(low = "blue", mid = "white", high = "red",
-                         midpoint = 0, limits = c(-1, 1)) +
-    labs(title = paste(protein_label, "feature correlations (n =", nrow(cor_data), 
-                       "complete species)"), x = "", y = "") +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6),
-          axis.text.y = element_text(size = 6))
-  ggsave(heatmap_file, plot = p, width = 10, height = 9)
-  
-  high_pairs <- cor_long %>%
-    filter(feature1 < feature2, abs(correlation) >= pairs_threshold) %>%
-    arrange(desc(abs(correlation)))
-  
-  list(matrix = cor_mat, high_pairs = high_pairs)
-}
-
-nirk_cor <- correlation_matrix_and_pairs(
-  nirk_features, "NirK", "nirk",
-  file.path(plots_dir, "nirk_correlation_heatmap.png")
-)
-pcuac_cor <- correlation_matrix_and_pairs(
-  pcuac_features, "PCuAC", "pcuac",
-  file.path(plots_dir, "pcuac_correlation_heatmap.png")
-)
-
-write_csv(as.data.frame(nirk_cor$matrix) %>% rownames_to_column("feature"),
-          file.path(tables_dir, "nirk_correlation_matrix.csv"))
-write_csv(as.data.frame(pcuac_cor$matrix) %>% rownames_to_column("feature"),
-          file.path(tables_dir, "pcuac_correlation_matrix.csv"))
-
-high_corr_pairs <- bind_rows(
-  nirk_cor$high_pairs %>% mutate(protein = "NirK"),
-  pcuac_cor$high_pairs %>% mutate(protein = "PCuAC")
-) %>% relocate(protein)
-
-write_csv(high_corr_pairs, file.path(tables_dir, "highly_correlated_feature_pairs.csv"))
-
-
-
-
-# Print entire summary (y/n) ----------------------------------------------
+# EDA summary ----------------------------------------------
 eda_summary <- tribble(
   ~metric, ~value,
   "Total species observations", as.character(nrow(df)),
@@ -463,19 +315,11 @@ eda_summary <- tribble(
   "Observations with duplicated NirK feature vector", as.character(n_dup_nirk_rows),
   "Observations with duplicated PCuAC feature vector", as.character(n_dup_pcuac_rows),
   "Fully duplicated observations", as.character(n_dup_full_rows),
-  "Number of NirK features", as.character(length(nirk_features)),
-  "Number of PCuAC features", as.character(length(pcuac_features)),
-  "Highly correlated feature pairs (|r| >= 0.8)", as.character(nrow(high_corr_pairs)),
   "Model A population size", as.character(nrow(model_a_population)),
   "Model B population size", as.character(nrow(model_b_population))
 )
 write_csv(eda_summary, file.path(tables_dir, "eda_summary.csv"))
-
-if (readline("Would you like to print EDA script summary: y/n? ") == "y") {
-  print(eda_summary, nrow(eda_summary))
-}
-
-
+print(eda_summary)
 
 
 

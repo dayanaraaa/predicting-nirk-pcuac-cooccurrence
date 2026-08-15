@@ -1,0 +1,20 @@
+metric,value
+Total species observations,5815
+Total dataset columns,59
+NirK-only count,1717
+PCuAC-only count,3637
+both (NirK + PCuAC) count,461
+NirK-only (%),29.53%
+PCuAC-only (%),62.55%
+both NirK + PCuAC (%),7.93%
+Unexpected class labels present,FALSE
+Maximum metadata missingness (%),62.55
+Maximum NirK feature missingness (%),62.55
+Maximum PCuAC feature missingness (%),29.53
+Species with unexpected missingness,0
+Observations with duplicated species identifiers,0
+Observations with duplicated NirK feature vector,43
+Observations with duplicated PCuAC feature vector,68
+Fully duplicated observations,0
+Model A population size,2178
+Model B population size,4098

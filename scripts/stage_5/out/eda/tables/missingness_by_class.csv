@@ -1,0 +1,4 @@
+class,nirK_features_missing,pcuac_features_missing,n
+both,FALSE,FALSE,461
+nirK_only,FALSE,TRUE,1717
+pcuac_only,TRUE,FALSE,3637

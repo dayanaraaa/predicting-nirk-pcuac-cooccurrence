@@ -1,0 +1,5 @@
+class,n,percent,population
+both,461,21.17,Model A (nirK_only vs both)
+nirK_only,1717,78.83,Model A (nirK_only vs both)
+both,461,11.25,Model B (pcuac_only vs both)
+pcuac_only,3637,88.75,Model B (pcuac_only vs both)
