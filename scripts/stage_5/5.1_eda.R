@@ -89,16 +89,6 @@ feature_labels <- c(
   aromaticity = "Aromaticity"
 )
 
-# Subset used for group-wise comparisons
-nirk_group_features <- c(nirk_core_features, "nirK_aa_frac_C", "nirK_aa_frac_H", 
-                         "nirK_aa_frac_M")
-pcuac_group_features <- c(pcuac_core_features, "pcuac_aa_frac_C", "pcuac_aa_frac_H", 
-                          "pcuac_aa_frac_M")
-
-stopifnot(all(nirk_features %in% c(nirk_core_features, nirk_aa_features)))
-stopifnot(all(pcuac_features %in% c(pcuac_core_features, pcuac_aa_features)))
-
-
 
 
 # Dataset loading and structure -------------------------------------------
