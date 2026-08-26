@@ -108,8 +108,59 @@ Raw data pulled from public databases (RefSeq, BLASTp results) isn't included in
 ---
 **Known Limitations & Future Work**
 
-- The feature set may get trimmed after EDA, some engineered features might turn out not to add predictive value.
-- Species-level label construction involves some judgment calls around ambiguous or partial BLAST matches; these are documented in the relevant scripts but may need revisiting.
-- No structural or experimental validation is planned, this project is entirely computational-based.
-- Model selection, training, and evaluation are still to come, so no results or conclusions exist yet.
-- Class imbalance (species with NirK but not PCuAC, or vice versa) may need specific handling once the full dataset is built, this hasn't been assessed yet.
+Yes. For a GitHub README, I’d make it concise and frame it as a **research roadmap**, clearly separating what the dissertation established from what could be investigated next.
+
+### Suggested README section
+
+## Future Research Directions
+
+This project identified a measurable difference between the groups and highlighted sequence features that may contribute to this distinction. Several follow-up analyses could build on these findings to determine whether these features represent biologically meaningful signals and to investigate their potential functional consequences.
+
+### 1. Validate sequence-level signals with ESM-2
+
+A natural next step would be to use **ESM-2** to investigate whether a protein language model independently identifies the same regions or sequence features highlighted by the current analysis.
+
+**Key question:**
+
+> Do the features that distinguish the groups in the current analysis also emerge from an independent protein language model?
+
+Agreement between the approaches would provide additional support that these regions contain meaningful sequence information. Conversely, differences between the approaches could identify additional regions or suggest that the original signal may require further investigation.
+
+### 2. Account for phylogenetic relationships
+
+The observed differences may partly reflect **shared evolutionary history** rather than the biological distinction being investigated.
+
+A phylogenetic analysis could therefore assess whether the identified sequence patterns remain associated with the groups after accounting for evolutionary relatedness.
+
+**Key question:**
+
+> Are the observed differences genuinely associated with the biological variable of interest, or can they be explained by phylogenetic structure?
+
+This would help distinguish biologically relevant signals from patterns arising through common ancestry.
+
+### 3. Investigate functional consequences through interaction modelling
+
+If particular sequence regions consistently emerge as distinguishing features, a further question is whether these differences have consequences at the **protein–protein interaction** level.
+
+Interaction modelling could investigate whether the identified sequence differences alter predicted interaction interfaces, binding characteristics, or protein–protein interaction networks.
+
+**Key question:**
+
+> Do the sequence differences identified in this study have potential functional consequences for protein interactions?
+
+This would provide a route from identifying **sequence-level differences** towards understanding their possible **molecular mechanisms**.
+
+### Overall research trajectory
+
+The proposed progression is:
+
+**Identify distinguishing features**
+↓
+**Test whether ESM-2 identifies the same signals**
+↓
+**Account for phylogenetic history**
+↓
+**Investigate potential functional consequences through interaction modelling**
+
+Together, these directions could extend the current work from identifying **what differs** towards understanding **why it differs and whether those differences matter functionally**.
+
