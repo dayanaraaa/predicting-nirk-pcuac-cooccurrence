@@ -110,10 +110,9 @@ Raw data pulled from public databases (RefSeq, BLASTp results) isn't included in
 
 Yes. For a GitHub README, I’d make it concise and frame it as a **research roadmap**, clearly separating what the dissertation established from what could be investigated next.
 
-### Suggested README section
+---
 
 ## Future Research Directions
-
 This project identified a measurable difference between the groups and highlighted sequence features that may contribute to this distinction. Several follow-up analyses could build on these findings to determine whether these features represent biologically meaningful signals and to investigate their potential functional consequences.
 
 ### 1. Validate sequence-level signals with ESM-2
