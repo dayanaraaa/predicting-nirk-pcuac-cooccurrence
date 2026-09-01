@@ -1,4 +1,4 @@
-Code and data for an MDS 
+Datasets for an MDS 
 investigating whether sequence-derived protein features predict the species-level
 co-occurrence of copper nitrite reductase (NirK) and its periplasmic copper
 chaperone (PCuAC) across bacteria.
