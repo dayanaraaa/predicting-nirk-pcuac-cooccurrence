@@ -36,7 +36,6 @@
 
 
 
-
 # Setup -------------------------------------------------------------------
 library(tidyverse)
 set.seed(11)
@@ -89,8 +88,12 @@ feature_labels <- c(
   aromaticity = "Aromaticity"
 )
 
-
-
+# Class colors
+class_colors <- c(
+  "nirK_only"  = "#274C77",  # blue
+  "pcuac_only" = "#D55E00",  # vermillion
+  "both"       = "#650D1B"   # reddish purple
+)
 # Dataset loading and structure -------------------------------------------
 df <- read_csv(input_file, show_col_types = FALSE)
 
@@ -219,6 +222,7 @@ write_csv(dup_class_summary, file.path(tables_dir, "duplicate_class_breakdown.cs
 ggplot(class_counts_all, aes(x = class, y = n, fill = class)) +
   geom_col() +
   geom_text(aes(label = paste0(n, " (",percent,"%)")), vjust = -0.3) +
+  scale_fill_manual(values = class_colors) +
   labs(title = "Species by class (full dataset)", x = "", y = "Number of species") +
   theme_minimal() +
   theme(legend.position = "none")
@@ -242,6 +246,7 @@ ggplot(modelling_population_counts, aes(x = class, y = n, fill = class)) +
   geom_col() +
   geom_text(aes(label = paste0(n, " (", percent, "%)")), vjust = -0.3) +
   facet_wrap(~population, scales = "free_x") +
+  scale_fill_manual(values = class_colors) +
   labs(title = "Model A / Model B population sizes",
        x = "", y = "Number of species") +
   theme_minimal() +
@@ -272,6 +277,7 @@ plot_core_distribution <- function(long_df, protein_label, filename) {
   ggplot(long_df, aes(x = value, fill = class)) +
     geom_density(alpha = 0.5) +
     facet_wrap(~feature_label, scales = "free", ncol = 3) +
+    scale_fill_manual(values = class_colors) +
     labs(title = paste(protein_label, "core feature distributions, by class"),
          x = "", y = "Density") +
     theme_minimal() +
@@ -311,9 +317,7 @@ eda_summary <- tribble(
 write_csv(eda_summary, file.path(tables_dir, "eda_summary.csv"))
 print(eda_summary)
 
-
-
-
+print(capture.output(sessionInfo()))
 
 
 

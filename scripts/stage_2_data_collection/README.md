@@ -3,7 +3,7 @@
 ## Overview
 This stage is about finding candidate NirK and PCuAC homologues by running large-scale BLASTp searches against the NCBI RefSeq Protein database.
 
-I start with curated seed sequences for NirK and PCuAC, then use those as queries to search across bacterial protein sequences for potential matches. The raw BLASTp hits that come out of this stage get passed along to Stage 3, where they're cleaned up and validated properly.
+It started with curated seed sequences for NirK and PCuAC, then use those as queries to search across bacterial protein sequences for potential matches. The raw BLASTp hits that come out of this stage get passed along to Stage 3, where they're cleaned up and validated properly.
 
 ---
 ## Objectives
@@ -56,5 +56,6 @@ This stage runs on a university HPC cluster using SLURM job submission, the BLAS
 ---
 ## Notes 
 A couple of things worth flagging for this stage specifically:
+- Email excluded, but should not effect running this.
 - BLASTp searches against the full RefSeq Protein database can take a while depending on queue load, so I'd recommend checking walltime limits before submitting rather than after a job gets killed partway through.
 - Seed sequences matter a lot here, if the NirK/PCuAC seeds aren't representative enough, the search may miss legitimate homologues or pull in too many false positives. Worth double-checking these against known reference sequences before running at scale.

@@ -1,0 +1,23 @@
+metric,value
+Model,B
+Focus feature,pcuac_aa_frac_W
+Species analysed,4096
+Dropped (no resolvable genus),2
+Distinct genera,977
+Class-pure genera,861
+Species in class-pure genera,2497
+Variance explained by genus,0.7832
+  excess over permutation null,0.5446
+Variance explained by class,0.0096
+  excess over permutation null,0.0093
+Variance explained by phylum,not computed
+Overall IQR (%),0.752
+Median within-genus IQR (%),0.005
+"Within-genus spread, % of overall",0.7
+Genera testable within-genus,12
+  same direction,3
+  opposite direction,4
+  tied,5
+Sign test p,1
+1-2 W: % carrying NirK,11.2
+3+ W: % carrying NirK,nan

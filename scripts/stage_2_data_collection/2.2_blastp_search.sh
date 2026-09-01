@@ -1,30 +1,38 @@
 #!/bin/bash
-#SBATCH -p shared # You select the queue(cluster) here
+#SBATCH -p shared # SLURM partition/queue
 #SBATCH -c 16                # number of CPU cores to allocate, one per thread, up to 128.
 #SBATCH --mem=64G            # memory required, in units of k,M or G, up to 250G.
 #SBATCH --gres=tmp:96G       # $TMPDIR space required on each compute node, up to 400G.
-#SBATCH -t 1-00:00:00   # time limit dd-hh:mm:ss (refseq is large; allow at least a day)
-#SBATCH --job-name=2.2_blastp_search # This name will let you follow your job
-#SBATCH --output=log/2.2_blastp_search%A_%a.out
-#SBATCH --error=log/2.2_blastp_search%A_%a.err
+#SBATCH -t 1-00:00:00   # time limit dd-hh:mm:ss (refseq is large, allow at least a day)
+#SBATCH --job-name=2.2_blastp_search # SLURM job identifier
+#SBATCH --output=../log/2.2_blastp_search%A_%a.out
+#SBATCH --error=../log/2.2_blastp_search%A_%a.err
 #SBATCH --array=1-2
 
 # SLURM email notifications are sent to the address specified below.
 #SBATCH --mail-type=ALL # Enable SLURM email notifications
-#SBATCH --mail-user=your_email@example.com
+#SBATCH --mail-user=-- I removed it as this is on a public repo.
 
-# This is the run that yields a
-# real dataset — hundreds-to-thousands of bacterial Nir and Pcu homologues.
-# Array task 1 = Nir (inputs) ; task 2 = Pcu (labels).
+# This generates the initial BLAST candidate dataset.
+# Hits are validated downstream using sequence-based functional filters.
+
+# Array task 1 = NirK BLAST search
+# Array task 2 = PcuAC BLAST search
 
 module load bioinformatics
 module load blast/2.17.0
 
+PROJECT_ROOT=/nobackup/$USER/pcu-nir
+cd "$PROJECT_ROOT" || {
+  echo "Failed to enter project directory: $PROJECT_ROOT"
+  exit 1
+}
+
 mkdir -p out
 mkdir -p log
-export BLASTDB=$PWD/db   # so -taxids expands to all bacteria + sscinames resolves
+export BLASTDB=$PROJECT_ROOT/db   # so -taxids expands to all bacteria + sscinames resolves
 
-query_names=("" "nir_seed" "pcu_seed")  # index 0 empty so tasks start at 1
+query_names=("" "nirk_seed" "pcuac_seed")  # index 0 empty so tasks start at 1
 query=${query_names[$SLURM_ARRAY_TASK_ID]}
 echo "BLASTp query = $query  (task $SLURM_ARRAY_TASK_ID) against refseq_protein"
 

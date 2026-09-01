@@ -1,0 +1,284 @@
+Rows: 5815 
+Columns: 59 
+
+Column names and types:
+# A tibble: 59 × 2
+   column                  type     
+   <chr>                   <chr>    
+ 1 species                 character
+ 2 taxid                   character
+ 3 organism_name           character
+ 4 nirK_present            numeric  
+ 5 pcuac_present           numeric  
+ 6 class                   character
+ 7 nirK_rep_accession      character
+ 8 pcuac_rep_accession     character
+ 9 species_resolved        numeric  
+10 nirK_length             numeric  
+11 nirK_molecular_weight   numeric  
+12 nirK_isoelectric_point  numeric  
+13 nirK_gravy              numeric  
+14 nirK_aromaticity        numeric  
+15 nirK_aa_frac_A          numeric  
+16 nirK_aa_frac_C          numeric  
+17 nirK_aa_frac_D          numeric  
+18 nirK_aa_frac_E          numeric  
+19 nirK_aa_frac_F          numeric  
+20 nirK_aa_frac_G          numeric  
+21 nirK_aa_frac_H          numeric  
+22 nirK_aa_frac_I          numeric  
+23 nirK_aa_frac_K          numeric  
+24 nirK_aa_frac_L          numeric  
+25 nirK_aa_frac_M          numeric  
+26 nirK_aa_frac_N          numeric  
+27 nirK_aa_frac_P          numeric  
+28 nirK_aa_frac_Q          numeric  
+29 nirK_aa_frac_R          numeric  
+30 nirK_aa_frac_S          numeric  
+31 nirK_aa_frac_T          numeric  
+32 nirK_aa_frac_V          numeric  
+33 nirK_aa_frac_W          numeric  
+34 nirK_aa_frac_Y          numeric  
+35 pcuac_length            numeric  
+36 pcuac_molecular_weight  numeric  
+37 pcuac_isoelectric_point numeric  
+38 pcuac_gravy             numeric  
+39 pcuac_aromaticity       numeric  
+40 pcuac_aa_frac_A         numeric  
+41 pcuac_aa_frac_C         numeric  
+42 pcuac_aa_frac_D         numeric  
+43 pcuac_aa_frac_E         numeric  
+44 pcuac_aa_frac_F         numeric  
+45 pcuac_aa_frac_G         numeric  
+46 pcuac_aa_frac_H         numeric  
+47 pcuac_aa_frac_I         numeric  
+48 pcuac_aa_frac_K         numeric  
+49 pcuac_aa_frac_L         numeric  
+50 pcuac_aa_frac_M         numeric  
+51 pcuac_aa_frac_N         numeric  
+52 pcuac_aa_frac_P         numeric  
+53 pcuac_aa_frac_Q         numeric  
+54 pcuac_aa_frac_R         numeric  
+55 pcuac_aa_frac_S         numeric  
+56 pcuac_aa_frac_T         numeric  
+57 pcuac_aa_frac_V         numeric  
+58 pcuac_aa_frac_W         numeric  
+59 pcuac_aa_frac_Y         numeric  
+
+Summary statistics (numeric columns):
+  nirK_present    pcuac_present   
+ Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :0.0000   Median :1.0000  
+ Mean   :0.3745   Mean   :0.7047  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000  
+ Max.   :1.0000   Max.   :1.0000  
+                                  
+ species_resolved  nirK_length   
+ Min.   :1        Min.   :300.0  
+ 1st Qu.:1        1st Qu.:316.0  
+ Median :1        Median :342.0  
+ Mean   :1        Mean   :340.6  
+ 3rd Qu.:1        3rd Qu.:362.8  
+ Max.   :1        Max.   :392.0  
+                  NA's   :3637   
+ nirK_molecular_weight nirK_isoelectric_point
+ Min.   :31571         Min.   :4.156         
+ 1st Qu.:33614         1st Qu.:5.159         
+ Median :36648         Median :5.617         
+ Mean   :36425         Mean   :5.705         
+ 3rd Qu.:38996         3rd Qu.:6.079         
+ Max.   :41394         Max.   :9.761         
+ NA's   :3637          NA's   :3637          
+   nirK_gravy      nirK_aromaticity
+ Min.   :-0.4076   Min.   :0.0444  
+ 1st Qu.:-0.1447   1st Qu.:0.0737  
+ Median :-0.0904   Median :0.0803  
+ Mean   :-0.0798   Mean   :0.0806  
+ 3rd Qu.:-0.0272   3rd Qu.:0.0868  
+ Max.   : 0.3029   Max.   :0.1152  
+ NA's   :3637      NA's   :3637    
+ nirK_aa_frac_A   nirK_aa_frac_C  
+ Min.   :0.0514   Min.   :0.0026  
+ 1st Qu.:0.0790   1st Qu.:0.0032  
+ Median :0.0965   Median :0.0032  
+ Mean   :0.0989   Mean   :0.0047  
+ 3rd Qu.:0.1167   3rd Qu.:0.0056  
+ Max.   :0.1692   Max.   :0.0157  
+ NA's   :3637     NA's   :3637    
+ nirK_aa_frac_D   nirK_aa_frac_E  
+ Min.   :0.0172   Min.   :0.0192  
+ 1st Qu.:0.0420   1st Qu.:0.0532  
+ Median :0.0478   Median :0.0607  
+ Mean   :0.0488   Mean   :0.0615  
+ 3rd Qu.:0.0558   3rd Qu.:0.0703  
+ Max.   :0.0854   Max.   :0.1125  
+ NA's   :3637     NA's   :3637    
+ nirK_aa_frac_F   nirK_aa_frac_G  
+ Min.   :0.0159   Min.   :0.0771  
+ 1st Qu.:0.0378   1st Qu.:0.1048  
+ Median :0.0436   Median :0.1118  
+ Mean   :0.0429   Mean   :0.1113  
+ 3rd Qu.:0.0479   3rd Qu.:0.1177  
+ Max.   :0.0714   Max.   :0.1483  
+ NA's   :3637     NA's   :3637    
+ nirK_aa_frac_H   nirK_aa_frac_I  
+ Min.   :0.0168   Min.   :0.0031  
+ 1st Qu.:0.0282   1st Qu.:0.0351  
+ Median :0.0319   Median :0.0442  
+ Mean   :0.0332   Mean   :0.0437  
+ 3rd Qu.:0.0378   3rd Qu.:0.0525  
+ Max.   :0.0573   Max.   :0.0836  
+ NA's   :3637     NA's   :3637    
+ nirK_aa_frac_K   nirK_aa_frac_L  
+ Min.   :0.0000   Min.   :0.0350  
+ 1st Qu.:0.0191   1st Qu.:0.0640  
+ Median :0.0464   Median :0.0705  
+ Mean   :0.0425   Mean   :0.0708  
+ 3rd Qu.:0.0629   3rd Qu.:0.0771  
+ Max.   :0.1021   Max.   :0.1090  
+ NA's   :3637     NA's   :3637    
+ nirK_aa_frac_M   nirK_aa_frac_N  
+ Min.   :0.0063   Min.   :0.0063  
+ 1st Qu.:0.0252   1st Qu.:0.0222  
+ Median :0.0287   Median :0.0350  
+ Mean   :0.0292   Mean   :0.0351  
+ 3rd Qu.:0.0336   3rd Qu.:0.0466  
+ Max.   :0.0597   Max.   :0.0740  
+ NA's   :3637     NA's   :3637    
+ nirK_aa_frac_P   nirK_aa_frac_Q  
+ Min.   :0.0431   Min.   :0.0090  
+ 1st Qu.:0.0616   1st Qu.:0.0219  
+ Median :0.0673   Median :0.0267  
+ Mean   :0.0683   Mean   :0.0276  
+ 3rd Qu.:0.0737   3rd Qu.:0.0324  
+ Max.   :0.1111   Max.   :0.0649  
+ NA's   :3637     NA's   :3637    
+ nirK_aa_frac_R   nirK_aa_frac_S  
+ Min.   :0.0127   Min.   :0.0063  
+ 1st Qu.:0.0221   1st Qu.:0.0361  
+ Median :0.0319   Median :0.0438  
+ Mean   :0.0371   Mean   :0.0442  
+ 3rd Qu.:0.0478   3rd Qu.:0.0526  
+ Max.   :0.1013   Max.   :0.0927  
+ NA's   :3637     NA's   :3637    
+ nirK_aa_frac_T   nirK_aa_frac_V  
+ Min.   :0.0295   Min.   :0.0583  
+ 1st Qu.:0.0556   1st Qu.:0.0906  
+ Median :0.0630   Median :0.0979  
+ Mean   :0.0637   Mean   :0.0986  
+ 3rd Qu.:0.0710   3rd Qu.:0.1061  
+ Max.   :0.1108   Max.   :0.1442  
+ NA's   :3637     NA's   :3637    
+ nirK_aa_frac_W   nirK_aa_frac_Y  
+ Min.   :0.0000   Min.   :0.0158  
+ 1st Qu.:0.0028   1st Qu.:0.0255  
+ Median :0.0031   Median :0.0322  
+ Mean   :0.0062   Mean   :0.0315  
+ 3rd Qu.:0.0096   3rd Qu.:0.0363  
+ Max.   :0.0193   Max.   :0.0506  
+ NA's   :3637     NA's   :3637    
+  pcuac_length  pcuac_molecular_weight
+ Min.   :109    Min.   :11398         
+ 1st Qu.:132    1st Qu.:14086         
+ Median :136    Median :14488         
+ Mean   :136    Mean   :14480         
+ 3rd Qu.:140    3rd Qu.:14850         
+ Max.   :157    Max.   :17279         
+ NA's   :1717   NA's   :1717          
+ pcuac_isoelectric_point  pcuac_gravy      
+ Min.   : 4.050          Min.   :-0.50960  
+ 1st Qu.: 5.521          1st Qu.:-0.03480  
+ Median : 6.353          Median : 0.07145  
+ Mean   : 6.878          Mean   : 0.06934  
+ 3rd Qu.: 8.335          3rd Qu.: 0.17010  
+ Max.   :12.000          Max.   : 0.69180  
+ NA's   :1717            NA's   :1717      
+ pcuac_aromaticity pcuac_aa_frac_A  
+ Min.   :0.00714   Min.   :0.02381  
+ 1st Qu.:0.03571   1st Qu.:0.10490  
+ Median :0.04412   Median :0.12409  
+ Mean   :0.04524   Mean   :0.12300  
+ 3rd Qu.:0.05366   3rd Qu.:0.14286  
+ Max.   :0.11538   Max.   :0.22308  
+ NA's   :1717      NA's   :1717     
+ pcuac_aa_frac_C   pcuac_aa_frac_D  
+ Min.   :0.00000   Min.   :0.00000  
+ 1st Qu.:0.00000   1st Qu.:0.03497  
+ Median :0.00000   Median :0.04412  
+ Mean   :0.00206   Mean   :0.04440  
+ 3rd Qu.:0.00000   3rd Qu.:0.05442  
+ Max.   :0.03200   Max.   :0.10853  
+ NA's   :1717      NA's   :1717     
+ pcuac_aa_frac_E   pcuac_aa_frac_F  
+ Min.   :0.00000   Min.   :0.00000  
+ 1st Qu.:0.04545   1st Qu.:0.02147  
+ Median :0.05970   Median :0.02952  
+ Mean   :0.06014   Mean   :0.03006  
+ 3rd Qu.:0.07299   3rd Qu.:0.03788  
+ Max.   :0.13953   Max.   :0.08633  
+ NA's   :1717      NA's   :1717     
+ pcuac_aa_frac_G   pcuac_aa_frac_H  
+ Min.   :0.01550   Min.   :0.01342  
+ 1st Qu.:0.07092   1st Qu.:0.02878  
+ Median :0.08955   Median :0.03676  
+ Mean   :0.08877   Mean   :0.03901  
+ 3rd Qu.:0.10606   3rd Qu.:0.04688  
+ Max.   :0.16667   Max.   :0.09701  
+ NA's   :1717      NA's   :1717     
+ pcuac_aa_frac_I   pcuac_aa_frac_K  
+ Min.   :0.00000   Min.   :0.00000  
+ 1st Qu.:0.02837   1st Qu.:0.03077  
+ Median :0.03906   Median :0.05224  
+ Mean   :0.04257   Mean   :0.05217  
+ 3rd Qu.:0.05385   3rd Qu.:0.07092  
+ Max.   :0.16176   Max.   :0.17323  
+ NA's   :1717      NA's   :1717     
+ pcuac_aa_frac_L   pcuac_aa_frac_M  
+ Min.   :0.03546   Min.   :0.01418  
+ 1st Qu.:0.08029   1st Qu.:0.04317  
+ Median :0.09489   Median :0.05224  
+ Mean   :0.09602   Mean   :0.05279  
+ 3rd Qu.:0.11029   3rd Qu.:0.06061  
+ Max.   :0.21774   Max.   :0.11278  
+ NA's   :1717      NA's   :1717     
+ pcuac_aa_frac_N   pcuac_aa_frac_P  
+ Min.   :0.00000   Min.   :0.00746  
+ 1st Qu.:0.01408   1st Qu.:0.04511  
+ Median :0.02128   Median :0.05714  
+ Mean   :0.02327   Mean   :0.05697  
+ 3rd Qu.:0.02963   3rd Qu.:0.06818  
+ Max.   :0.12214   Max.   :0.11348  
+ NA's   :1717      NA's   :1717     
+ pcuac_aa_frac_Q   pcuac_aa_frac_R  
+ Min.   :0.00000   Min.   :0.00000  
+ 1st Qu.:0.01575   1st Qu.:0.02273  
+ Median :0.02920   Median :0.03472  
+ Mean   :0.03127   Mean   :0.03663  
+ 3rd Qu.:0.04348   3rd Qu.:0.04511  
+ Max.   :0.12121   Max.   :0.12214  
+ NA's   :1717      NA's   :1717     
+ pcuac_aa_frac_S   pcuac_aa_frac_T  
+ Min.   :0.00000   Min.   :0.00735  
+ 1st Qu.:0.03731   1st Qu.:0.04688  
+ Median :0.05036   Median :0.06107  
+ Mean   :0.05152   Mean   :0.06331  
+ 3rd Qu.:0.06383   3rd Qu.:0.07746  
+ Max.   :0.13869   Max.   :0.15672  
+ NA's   :1717      NA's   :1717     
+ pcuac_aa_frac_V   pcuac_aa_frac_W  
+ Min.   :0.01562   Min.   :0.00000  
+ 1st Qu.:0.07634   1st Qu.:0.00000  
+ Median :0.09023   Median :0.00714  
+ Mean   :0.09085   Mean   :0.00528  
+ 3rd Qu.:0.10490   3rd Qu.:0.00752  
+ Max.   :0.17293   Max.   :0.03053  
+ NA's   :1717      NA's   :1717     
+ pcuac_aa_frac_Y  
+ Min.   :0.00000  
+ 1st Qu.:0.00714  
+ Median :0.00758  
+ Mean   :0.00990  
+ 3rd Qu.:0.01439  
+ Max.   :0.03876  
+ NA's   :1717     

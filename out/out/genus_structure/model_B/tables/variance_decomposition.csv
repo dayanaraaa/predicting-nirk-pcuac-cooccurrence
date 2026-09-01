@@ -1,0 +1,3 @@
+grouping,n_groups,r2_observed,r2_null_mean,r2_excess,p_permutation
+genus,977,0.7832,0.2386,0.5446,0.002
+class,2,0.0096,0.0003,0.0093,0.002

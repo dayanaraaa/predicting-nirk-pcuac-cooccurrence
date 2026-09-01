@@ -1,117 +1,117 @@
 # Predicting NirK-PCuAC Co-occurrence from Protein Sequence Features
 
-## Overview 
-This repo includes the bioinformatics and machine learning pipeline I'm building for my Master of Data Science dissertation. The project investigates whether sequence-derived protein features can be used to predict the co-occurrence of NirK, a copper-containing nitrite reductase, and PCuAC, a periplasmic copper chaperone. These proteins are both involved in copper-dependent denitrification for anaerobic bacterial respiration.
+## Overview
+
+This repo contains the bioinformatics and machine learning pipeline built for my Master of Data Science dissertation. The project investigates whether sequence-derived protein features can predict the co-occurrence of NirK, a copper-containing nitrite reductase, and PCuAC, a periplasmic copper chaperone. Both proteins are involved in copper-dependent denitrification during anaerobic bacterial respiration.
 
 ## Research Question
-**Can sequence-derived features from NirK and PCuAC proteinsb predict whether a bacterial species contains both proteins?**  
-More specifically:
-- Can NirK features predict whether PCuAC is present?
-- Can PCuAC features predict whether NirK is present?
-- Are there any sequence-level signals that could be tied to their co-occurrence?
 
-## Pipeline Overview
-### Stage 1: Biological Context and Define Research Question
-Framed as a binary classification problem: whether a bacterial species contains both NirK and PCuAC proteins.
+**Can sequence-derived features from one protein predict whether its partner protein is also present in the same bacterial species?**
 
-### Stage 2: Data Collection 
-_Scripts: 2.1a-d, 2.2_  
+The question is framed as two conditional binary classification problems:
+
+- **Model A**:  among species containing NirK, do NirK sequence features predict whether PCuAC is also present? (`nirK_only` vs `both`)
+- **Model B**:  among species containing PCuAC, do PCuAC sequence features predict whether NirK is also present? (`pcuac_only` vs `both`)
+
+Framing the problem conditionally means each model asks a biologically meaningful question about a single protein family, rather than mixing unrelated comparisons into one classifier.
+
+**Unit of analysis:** one row = one bacterial species. Features are calculated once per species from a single representative sequence per protein family.
+
+---
+
+## Pipeline
+
+### Stage 1:  Biological context and research question
+
+Define the co-occurrence question and the conditional Model A / Model B framing.
+
+### Stage 2:  Data collection
+
+*Scripts: 2.1a-d, 2.2*
+
 - Define seed proteins for NirK and PCuAC
 - Prepare protein database
-- Run large-scale BLASTp searches against RefSeq to retrieve homologous sequences
-- Collect raw candidate homologous sequences
+- Run BLASTp searches against RefSeq to retrieve homologous sequences
+- Collect raw candidate sequences
 
-### Stage 3: Data Cleaning and Label Construction
-_Scripts: 3.1-3.6_
-- Standardise BLAST metadata and accession identifiers
-- Retrieve protein sequence metadata and FASTA sequences
-- Validate candidate homologues using conserved residue analysis
-- Remove duplicate, incomplete, or low-quality sequences
-- Construct species-level NirK and PCuAC presence/absence labels
-- Generate representative protein datasets for downstream feature analysis
+### Stage 3:  Sequence validation and label construction
 
-### Stage 4: Feature Engineering
-_Scripts: 4.1, 4.2_  
-- Integrate validated protein-sequences with sequence-derived features
-- Physicochemical protein descriptors of interest:
-  - Protein length
-  - Molecular Weight
-  - Isoelectric Point
-  - Hydrophobicity (GRAVY score)
-  - Amino acid composition
-  - Conserved residue features
-- Generate final analysis table and machine-learning feature matrices
+*Scripts: 3.1 - 3.5b*
 
-### Stage 5: Exploratory Data Analysis
-_Scripts: _  
-- Assess dataset composition and class balance
-- Compare NirK-only, PCuAC-only, and co-occurring groups
-- Identify feature redundancy through correlation analysis
-- Evaluate sequence feature distributions and relationships
-- Perform dimensionality reduction using Principal Component Analysis (PCA)
-- Generate ESM2 protein language model embeddings to compare sequence-levels
-- Use to develop machine learning models for predicting NirK-PCuAC co-occurrence
+- `3.1`:  parse BLAST output into clean accession lists and metadata tables
+- `3.2`:  retrieve protein FASTA sequences and metadata
+- `3.3`:  align sequences and tag conserved copper-binding residues
+- `3.4`:  confirm NirK identity (Type 1 copper site, Type 2 copper site, catalytic residues, length)
+- `3.5`:  confirm functional PCuAC identity (Cu(I) motif, length, SignalP-predicted signal peptide)
 
-### Stage 6: Prepare Data for Modelling
-- Encode categorical variables
-- Scale numerical features where appropriate
-- Create training, validation, and test datasets
-- Address potential class imbalance
+Validation is motif-based rather than relying on BLAST E-value alone, so that only sequences with the structural features required for function are retained.
 
-### Stage 7: Model Selection
-_Currently considering..._
-- Logistic Regression (baseline)
-- Decision Tree
-- Random Forest
-- XGBoost / Gradient Boosting
-- Neural Network
+### Stage 4:  Dataset construction and feature engineering
 
-### Stage 8: Model Training
-- Train selected models using cross-validation
-- Optimise hyperparameters
-- Evaluate model performance during training
+*Scripts: 4.0 - 4.2*
 
-### Stage 9: Model Evaluation
-- Accuracy
-- Precision
-- F1-score
-- Confusion matrix
+- `4.0`:  build sequence-level and species-level tables; select one representative sequence per species per protein family (longest validated sequence, ties resolved by accession order)
+- `4.1`:  validate dataset integrity; drop taxonomically unresolved entries from the ML dataset while retaining them for QC
+- `4.2`:  calculate sequence features using Biopython `ProteinAnalysis`
 
-### Stage 10: Model Interpretation
-- Feature importance analysis
-- Identify sequence features associated with NirK-PCuAC co-occurrence
+Features:
+
+- Protein length
+- Molecular weight
+- Isoelectric point
+- Hydrophobicity (GRAVY)
+- Aromaticity
+- Amino acid composition
+
+Output: `out/final_feature_table.csv`:  one row per species.
+
+### Stage 5:  Exploratory analysis
+
+*Scripts: 5.1, 5.2, 5.2b*
+
+- `5.1_eda.R`:  dataset structure, class composition, missingness, duplication, feature distributions, and Model A / Model B population sizes. Performed before any modelling or train/test splitting.
+- `5.2_genus_structure.py` / `5.2b`:  check whether the signal in the focus feature is driven by taxonomy rather than by co-occurrence itself, using within-genus comparisons and a permutation-based variance null.
+
+The genus-structure check matters because closely related species share both sequence features and gene content by descent. A feature that separates the classes across the whole dataset may only be tracking which genera happen to be in which class.
+
+### Stage 6:  Modelling
+
+*Notebook: `model_A_final.ipynb`*
+
+- Non-parametric group comparisons (Mann-Whitney U) with effect sizes
+- Correlation filtering to remove redundant features
+- Train/test split
+- Logistic regression with L2 regularisation, `C` selected by cross-validation (standardised features)
+- Random forest (unscaled features)
+
+### Stage 7:  Evaluation and interpretation
+
+- Accuracy, precision, recall, F1, confusion matrix
+- Logistic regression coefficients (standardised units)
+- Random forest feature importance
+
+Statistical testing indicates whether a feature *differs* between groups. It does not establish that the feature can *predict* class membership:  the modelling stage addresses that separately.
+
 ---
 
-## Tools and Technologies 
+## Tools
+
 **Bioinformatics**
-- BLASTp
-- NCBI RefSeq Protein DB
-- MAFFT
-  
-**Programming & Data Science**
-- Python
-- R
-- Pandas
-- NumPy
-- scikit-learn
-- matplotlib
-  
-**Computing Environment**
-- University HPC Cluster
-- SLURM job scheduling
+BLASTp · NCBI RefSeq protein database · MAFFT · SignalP · Biopython
 
----
-**Data availability**   
+**Data science**
+Python (pandas, NumPy, scikit-learn, SciPy, matplotlib) · R (tidyverse)
 
-Raw data pulled from public databases (RefSeq, BLASTp results) isn't included in this repo due to size. Scripts in scripts/2_data_collection/ will regenerate it, though results may shift slightly as source databases get updated. Processed and intermediate data will be added as later stages are finalised. 
- 
----
-**Known Limitations & Future Work**
-
-Yes. For a GitHub README, I’d make it concise and frame it as a **research roadmap**, clearly separating what the dissertation established from what could be investigated next.
+**Computing**
+University HPC cluster with SLURM job scheduling
 
 ---
 
+## Data availability
+
+Raw BLAST output and downloaded RefSeq sequences are not included in this repo due to size. Scripts in `scripts/2_data_collection/` will regenerate them, though results may shift slightly as source databases are updated. Processed and intermediate data will be added as later stages are finalised.
+
+---
 ## Future Research Directions
 This project identified a measurable difference between the groups and highlighted sequence features that may contribute to this distinction. Several follow-up analyses could build on these findings to determine whether these features represent biologically meaningful signals and to investigate their potential functional consequences.
 
@@ -139,9 +139,9 @@ This would help distinguish biologically relevant signals from patterns arising 
 
 ### 3. Investigate functional consequences through interaction modelling
 
-If particular sequence regions consistently emerge as distinguishing features, a further question is whether these differences have consequences at the **protein–protein interaction** level.
+If particular sequence regions consistently emerge as distinguishing features, a further question is whether these differences have consequences at the **protein-protein interaction** level.
 
-Interaction modelling could investigate whether the identified sequence differences alter predicted interaction interfaces, binding characteristics, or protein–protein interaction networks.
+Interaction modelling could investigate whether the identified sequence differences alter predicted interaction interfaces, binding characteristics, or protein-protein interaction networks.
 
 **Key question:**
 
@@ -163,3 +163,10 @@ The proposed progression is:
 
 Together, these directions could extend the current work from identifying **what differs** towards understanding **why it differs and whether those differences matter functionally**.
 
+## Limitations
+
+- **Representative sequence choice.** One sequence per species per protein family is used. Where a species carries multiple validated homologues, the longest is chosen, which discards within-species variation.
+- **Absence is inferred, not observed.** A species labelled `nirK_only` is one where no PCuAC homologue passed validation. Absence from a search result is not the same as absence from the genome, and incomplete or unsequenced genomes will inflate the "only" classes.
+- **Taxonomic non-independence.** Species are not statistically independent observations; shared ancestry links both features and gene content. Stage 5.2 assesses this but does not fully remove it.
+- **Class imbalance** in both Model A and Model B populations.
+- **No structural or experimental validation.** This project is entirely computational.

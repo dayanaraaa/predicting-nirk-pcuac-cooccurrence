@@ -1,0 +1,4 @@
+class,species_resolved_label,n,percent
+both,Species-resolved,461,100
+nirK_only,Species-resolved,1717,100
+pcuac_only,Species-resolved,3637,100

@@ -1,0 +1,9 @@
+,,mean,mean,sd,sd
+cv,,grouped,random,grouped,random
+model,metric,,,,
+dummy_stratified,f1,0.213,0.21,0.054,0.043
+dummy_stratified,roc_auc,0.504,0.501,0.032,0.027
+logistic_regression,f1,0.535,0.559,0.07,0.03
+logistic_regression,roc_auc,0.793,0.826,0.039,0.025
+random_forest,f1,0.554,0.668,0.065,0.038
+random_forest,roc_auc,0.856,0.903,0.043,0.018

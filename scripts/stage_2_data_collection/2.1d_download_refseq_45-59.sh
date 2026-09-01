@@ -10,7 +10,7 @@
 
 # SLURM email notifications are sent to the address specified below.
 #SBATCH --mail-type=ALL # Enable SLURM email notifications
-#SBATCH --mail-user=your_email@example.com
+#SBATCH --mail-user= -- I removed it as this is on a public repo.
 
 # Downloads RefSeq protein database volumes 45-59 into the configured database directory.
 # Each tarball is downloaded, MD5-VERIFIED, extracted, then deleted.
@@ -20,7 +20,7 @@
 # Database availability checked 2026-05-31; RefSeq protein volumes 00-59 were available.
 
 # This script is designed for execution on a SLURM-managed HPC environment.
-# Database files are stored in the user's allocated scratch/nobackup directory.
+# Database files are stored in the allocated nobackup directory.
 
 mkdir -p /nobackup/$USER/pcu-nir/db
 
